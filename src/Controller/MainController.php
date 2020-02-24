@@ -8,6 +8,8 @@ use App\Entity\Danse;
 use App\Entity\PowerPoint;
 use App\Form\DanseType;
 use App\Form\PowerPointType;
+use App\Service\OrderObject;
+use App\Service\PowerPointGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,9 +20,11 @@ class MainController extends AbstractController
 
     /**
      * @Route("/", name="main")
+     * @param PowerPointGenerator $powerPointGenerator
+     * @param Request $request
      * @return Response
      */
-    public function main(Request $request)
+    public function main(PowerPointGenerator $powerPointGenerator, OrderObject $orderObject, Request $request)
     {
         //Déclaration entitée
         $powerpoint = new PowerPoint();
@@ -31,6 +35,12 @@ class MainController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             $powerpoint = $form->getData();
+
+            //Ordonner par position_playlist
+            $dansesOrdonner = $orderObject->ordrePostionPlaylist($powerpoint->getDanses());
+
+            //Appel du service de création du fichier Powerpoint
+            $powerPointGenerator->main($dansesOrdonner);
 
             //Récupération du tableau danses $powerpoint->getDanses();
 
@@ -44,6 +54,15 @@ class MainController extends AbstractController
 
         ]);
 
+    }
+
+    /**
+     * @Route("/service", name="app_service")
+     * @param PowerPointGenerator $powerPointGenerator
+     * @return Response
+     */
+    public function testService(PowerPointGenerator $powerPointGenerator){
+        return new Response($powerPointGenerator->main());
     }
 
 }
