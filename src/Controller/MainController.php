@@ -49,7 +49,7 @@ class MainController extends AbstractController
         }
 
         //Retourne la vue non formulaire
-        return $this->render('powerPoint/new.html.twig', [
+        return $this->render('powerPoint/index.html.twig', [
             'form'=>$form->createView(),
 
         ]);
@@ -63,6 +63,15 @@ class MainController extends AbstractController
      */
     public function testService(PowerPointGenerator $powerPointGenerator){
         return new Response($powerPointGenerator->main());
+    }
+
+    /**
+     * @Route("/admin", name="app_admin")
+     * @return Response
+     */
+    public function admin():Response
+    {
+        return new Response('<body> C\'est une page d\'admin pour tester</body>');
     }
 
 }
