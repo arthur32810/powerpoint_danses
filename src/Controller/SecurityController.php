@@ -77,7 +77,7 @@ class SecurityController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            $this->addFlash('notice', 'Votre compte a bien été créé');
+            $this->addFlash('success', 'Votre compte a bien été créé');
             return $this->redirectToRoute('app_login');
         }
         return $this->render('security/register.html.twig', [

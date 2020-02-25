@@ -74,4 +74,12 @@ class MainController extends AbstractController
         return new Response('<body> C\'est une page d\'admin pour tester</body>');
     }
 
+    /**
+     * @Route("/flashes", name="app_test")
+     */
+    public function test()
+    {
+        $this->addFlash('danger', 'Email iconnu');
+        return $this->redirectToRoute('app_login');
+    }
 }

@@ -14,11 +14,7 @@
         </div>
     {% endif %}
 
-    {% for message in app.flashes('notice') %}
-        <div class="flash-notice bg-success text-white">
-            {{ message }}
-        </div>
-    {%  endfor %}
+    {%  include 'component/allFlashesMessage.html.twig' %}
 
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
     <label for="inputEmail">Email</label>

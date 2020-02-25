@@ -33,7 +33,7 @@ class PasswordController extends AbstractController
             if($user === null)
             {
                 $this->addFlash('danger', 'Email iconnu');
-                return $this->redirectToRoute('main');
+                return $this->redirectToRoute('app_register');
             }
 
             $token = $tokenGenerator->generateToken();
@@ -44,22 +44,25 @@ class PasswordController extends AbstractController
             }
             catch(\Exception $e){
                 $this->addFlash('warning', $e->getMessage());
-                return $this->redirectToRoute('main');
+                return $this->redirectToRoute('app_forgotten_password');
             }
 
             $url = $this->generateUrl('app_reset_password',['token'=>$token], UrlGeneratorInterface::ABSOLUTE_URL);
 
             $message = (new \Swift_Message('Mot de passe perdu'))
-                ->setFrom('noreply@presentationPowerpoint.cr32.fr')
+                ->setFrom('noreply@dansespowerpoint.cr32.fr')
                 ->setTo($user->getEmail())
                 ->setBody(
-                    "Token pour reset mot de passe : ".$url,
+                    $this->renderView(
+                        'emails/reset_password.html.twig',
+                        ['url'=>$url]
+                    ),
                     'text/html'
                 );
 
             $mailer->send($message);
 
-            $this->addFlash('notice', 'Mail envoyé');
+            $this->addFlash('success', 'Mail envoyé');
             return $this->redirectToRoute('app_login');
         }
         return $this->render('security/forgotten_password.html.twig');
@@ -81,7 +84,8 @@ class PasswordController extends AbstractController
             ->getForm()
         ;
 
-        if($request->isMethod('POST'))
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
         {
             $em = $this->getDoctrine()->getManager();
 
@@ -94,11 +98,11 @@ class PasswordController extends AbstractController
             }
 
             $user->setResetToken(null);
-            $user->setPassword($passwordEncoder->encodePassword($user, $request->request->get('password')));
+            $user->setPassword($passwordEncoder->encodePassword($user, $form->getData()['password']));
 
             $em->flush();
 
-            $this->addFlash('notice', 'Mot de passe mis à jour');
+            $this->addFlash('success', 'Mot de passe mis à jour');
 
             return $this->redirectToRoute('app_login');
         }
