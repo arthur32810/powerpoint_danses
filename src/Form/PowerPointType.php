@@ -14,11 +14,14 @@ class PowerPointType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('danses', CollectionType::class,[
-            'entry_type'=>DanseType::class,
-            'allow_add'=> true,
-            'entry_options'=> ['label'=>false],
-        ])
-            ->add('Save', SubmitType::class, ['label'=>'Générer'])
+                'entry_type'=>DanseType::class,
+                'allow_add'=> true,
+                'entry_options'=> ['label'=>false],
+            ])
+            ->add('save', SubmitType::class, [
+                'label'=> $options['name_button'],
+                'attr'=>['class'=>'btn btn-info']
+            ])
         ;
     }
 
@@ -26,6 +29,9 @@ class PowerPointType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => PowerPoint::class,
+            'name_button'=>'Générer'
         ]);
+
+        $resolver->setAllowedTypes('name_button', 'string');
     }
 }

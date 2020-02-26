@@ -11,6 +11,7 @@ use App\Form\PowerPointType;
 use App\Service\OrderObject;
 use App\Service\PowerPointGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,8 +30,15 @@ class MainController extends AbstractController
         //Déclaration entitée
         $powerpoint = new PowerPoint();
 
-        //Construction formulaire
-        $form = $this->createForm(PowerPointType::class, $powerpoint);
+        //Construction formulaire et modification du texte bouton en fonction du role utilisateur
+        if($this->isGranted('ROLE_USER'))
+        {
+            $form = $this->createForm(PowerPointType::class, $powerpoint, [
+                'name_button'=> 'Enregistrer et générer'
+            ]);
+        }
+        else { $form = $this->createForm(PowerPointType::class, $powerpoint); }
+
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
@@ -39,12 +47,30 @@ class MainController extends AbstractController
             //Ordonner par position_playlist
             $dansesOrdonner = $orderObject->ordrePostionPlaylist($powerpoint->getDanses());
 
+            //Enregistrement dans bdd pour utilisateur connectés
+           /* if($this->isGranted('ROLE_USER')){
+                //Récupération de l'entity manager
+                $em = $this->getDoctrine()->getManager();
+
+                //Récupération de l'utilisateur + assignation dans la query
+                $user = $this->getUser();
+                $powerpoint->setUser($user);
+
+                 //Ajout du powerpoint dans l'objet danse
+                foreach($powerpoint->getDanses() as $danse)
+                {
+                    $danse->setPowerpoint($powerpoint);
+                }
+
+                //Persistance et flush
+                $em->persist($powerpoint);
+                $em->flush();
+            }*/
+
+
+
             //Appel du service de création du fichier Powerpoint
             $powerPointGenerator->main($dansesOrdonner);
-
-            //Récupération du tableau danses $powerpoint->getDanses();
-
-            // Test génération powerpoint
 
         }
 
@@ -75,11 +101,11 @@ class MainController extends AbstractController
     }
 
     /**
-     * @Route("/flashes", name="app_test")
+     * @Route("/test", name="app_test")
      */
     public function test()
     {
-        $this->addFlash('danger', 'Email iconnu');
-        return $this->redirectToRoute('app_login');
+
+      return new Response("<body> C'est persisté </body>");
     }
 }

@@ -19,12 +19,12 @@ class PowerPoint
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Danse", mappedBy="powerPoint", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Danse", mappedBy="powerPoint", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $danses;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="powerpoint")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="powerpoint", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;

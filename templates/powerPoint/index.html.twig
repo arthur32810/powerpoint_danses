@@ -6,11 +6,11 @@
         <br>
 
         <p> Attention ! Si vous souhaitez pouvoir enregistrer le formulaire pour le modifier ultérieurement il faut absolument vous
-            <a href="{{ path('app_login') }}"> Connecter</a> ou vous <a href="{{ path('app_register') }}"> inscrire </a> avant de le compléter et cliquez sur enregistrer au lieu de Générer</p>
+            <a href="{{ path('app_login') }}"> Connecter</a> ou vous <a href="{{ path('app_register') }}"> Inscrire </a> avant de le compléter</p>
 
         {{ form_start(form) }}
         {{ form_row(form.danses) }}
-        <button type="button" id="add_category" class="btn btn-secondary">Ajouter une danse</button>
+        <button type="button" id="add_category" class="btn btn-secondary" style="margin-bottom:2%">Ajouter une danse</button>
 
         {{ form_rest(form) }}
         {{ form_end(form) }}
@@ -22,6 +22,7 @@
 
     {# Voici le script en question : #}
     <script type="text/javascript">
+
         $(document).ready(function() {
             // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
             var $container = $('div#power_point_danses');

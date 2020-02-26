@@ -46,7 +46,7 @@ class User implements UserInterface
     private $created_at;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PowerPoint", mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\PowerPoint", mappedBy="user", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $powerpoint;
 
