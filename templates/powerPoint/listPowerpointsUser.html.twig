@@ -4,9 +4,13 @@
 
 {% block body %}
 
+    {%  include 'component/allFlashesMessage.html.twig' %}
+
     {%  if powerpoints is not empty %}
         {%  for powerpoint in powerpoints %}
-            {{ dump(powerpoint.danses) }}
+            <p>
+                <a href="{{ path('powerpoint_edit', {id: powerpoint.id}) }}"> Edition du powerpoint :  {{ powerpoint.name }}</a>
+            </p>
         {%  endfor %}
     {%  endif %}
 

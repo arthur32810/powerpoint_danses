@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Edition Powerpoint' %}
+
+{% block body %}
+
+    {% include 'component/allFlashesMessage.html.twig' %}
+
+
+    {%  include 'powerPoint/form/formPowerPoint.html.twig' %}
+
+{%  endblock %}
+
+{%  block javascripts %}
+    {%  include 'powerPoint/form/javascriptFormPowerPoint.html.twig' %}
+
+{%  endblock %}
+
