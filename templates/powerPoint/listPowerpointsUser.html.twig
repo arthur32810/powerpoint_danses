@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Mes powerpoints' %}
+
+{% block body %}
+
+    {%  if powerpoints is not empty %}
+        {%  for powerpoint in powerpoints %}
+            {{ dump(powerpoint.danses) }}
+        {%  endfor %}
+    {%  endif %}
+
+{% endblock %}
+
+

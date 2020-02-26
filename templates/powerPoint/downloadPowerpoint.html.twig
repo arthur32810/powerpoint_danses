@@ -1,0 +1,10 @@
+{%  extends 'base.html.twig' %}
+
+{%  block title 'Téléchargement du powerpoint' %}
+
+{%  block body %}
+
+    <h1> Générateur de présentation Powerpoint</h1>
+    <p> Merci d'avoir générer un fichier powerpoint, celui-ci est disponible 10min, veuillez le télécharger en cliquant sur le lien suivant <br> <a href="{{ absolute_url(asset('uploads/powerpoint/'~urlPowerpoint)) }}" download="Présentation powerpoint"> Télécharger ma présentation powerpoint</a> </p>
+    <p> <a href="{{ path('main') }}">Générer un nouveau document</a> </p>
+{%  endblock %}

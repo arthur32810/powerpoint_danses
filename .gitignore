@@ -9,6 +9,7 @@
 /var/
 /vendor/
 /src/Migrations/
+/public/uploads/
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###

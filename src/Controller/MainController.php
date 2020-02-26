@@ -3,17 +3,14 @@
 
 namespace App\Controller;
 
-
-use App\Entity\Danse;
 use App\Entity\PowerPoint;
-use App\Form\DanseType;
 use App\Form\PowerPointType;
 use App\Service\OrderObject;
 use App\Service\PowerPointGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends AbstractController
@@ -25,7 +22,7 @@ class MainController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function main(PowerPointGenerator $powerPointGenerator, OrderObject $orderObject, Request $request)
+    public function main(PowerPointGenerator $powerPointGenerator, OrderObject $orderObject, SessionInterface $session, Request $request)
     {
         //Déclaration entitée
         $powerpoint = new PowerPoint();
@@ -48,7 +45,7 @@ class MainController extends AbstractController
             $dansesOrdonner = $orderObject->ordrePostionPlaylist($powerpoint->getDanses());
 
             //Enregistrement dans bdd pour utilisateur connectés
-           /* if($this->isGranted('ROLE_USER')){
+            if($this->isGranted('ROLE_USER')){
                 //Récupération de l'entity manager
                 $em = $this->getDoctrine()->getManager();
 
@@ -65,21 +62,35 @@ class MainController extends AbstractController
                 //Persistance et flush
                 $em->persist($powerpoint);
                 $em->flush();
-            }*/
-
+            }
 
 
             //Appel du service de création du fichier Powerpoint
-            $powerPointGenerator->main($dansesOrdonner);
+            $presentation = $powerPointGenerator->main($dansesOrdonner);
+            $urlPPTX = $powerPointGenerator->savePowerpointPPTX($presentation);
 
+            $this->addFlash('success', 'Le fichier a bien été généré !');
+
+            $session->set('urlPowerpoint', $urlPPTX);
+
+            return $this->redirectToRoute('powerpoint_download');
         }
 
         //Retourne la vue non formulaire
         return $this->render('powerPoint/index.html.twig', [
             'form'=>$form->createView(),
-
         ]);
 
+    }
+
+    /**
+     * @Route("/downloadPowerpoint", name="powerpoint_download")
+     */
+    public function powerpointDowload(SessionInterface $session)
+    {
+        $urlPowerpoint = $session->get('urlPowerpoint');
+
+        return $this->render('powerPoint/downloadPowerpoint.html.twig', ['urlPowerpoint'=>$urlPowerpoint]);
     }
 
     /**
