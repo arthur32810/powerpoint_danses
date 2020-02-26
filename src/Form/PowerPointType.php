@@ -18,7 +18,7 @@ class PowerPointType extends AbstractType
             'allow_add'=> true,
             'entry_options'=> ['label'=>false],
         ])
-            ->add('Créer', SubmitType::class)
+            ->add('Save', SubmitType::class, ['label'=>'Générer'])
         ;
     }
 

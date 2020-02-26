@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -42,6 +44,16 @@ class User implements UserInterface
      * @ORM\Column(type="datetime")
      */
     private $created_at;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PowerPoint", mappedBy="user", orphanRemoval=true)
+     */
+    private $powerpoint;
+
+    public function __construct()
+    {
+        $this->powerpoint = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -141,6 +153,37 @@ class User implements UserInterface
     public function setCreatedAt(\DateTimeInterface $created_at): self
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PowerPoint[]
+     */
+    public function getPowerpoint(): Collection
+    {
+        return $this->powerpoint;
+    }
+
+    public function addPowerpoint(PowerPoint $powerpoint): self
+    {
+        if (!$this->powerpoint->contains($powerpoint)) {
+            $this->powerpoint[] = $powerpoint;
+            $powerpoint->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePowerpoint(PowerPoint $powerpoint): self
+    {
+        if ($this->powerpoint->contains($powerpoint)) {
+            $this->powerpoint->removeElement($powerpoint);
+            // set the owning side to null (unless already changed)
+            if ($powerpoint->getUser() === $this) {
+                $powerpoint->setUser(null);
+            }
+        }
 
         return $this;
     }

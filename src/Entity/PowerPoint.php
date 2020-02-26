@@ -23,6 +23,12 @@ class PowerPoint
      */
     private $danses;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="powerpoint")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
     public function __construct()
     {
         $this->danses = new ArrayCollection();
@@ -60,6 +66,18 @@ class PowerPoint
                 $danse->setPowerPoint(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
