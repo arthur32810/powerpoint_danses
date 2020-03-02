@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\PowerPoint;
 use App\Form\PowerPointType;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,22 +36,29 @@ class PowerPointController extends AbstractController
     {
         if($powerPoint->getUser() == $this->getUser()){
 
-            $newPowerpoint = new PowerPoint();
-
-            /*foreach ($powerPoint->getDanses() as $danse){
-                $newPowerpoint->
-            }*/
-
             $form = $this->createForm(PowerPointType::class, $powerPoint, [
-                'name_button'=> 'Enregistrer et générer'
+                'name_button'=> 'Enregistrer et générer',
+                'disabled_button_generate'=>false
             ]);
 
             $form->handleRequest($request);
 
             if($form->isSubmitted() && $form->isValid()) {
-                $powerPoint = $form->getData();
-                var_dump($powerPoint->getDanses());
-                return new Response('formulaire soumis et validé');
+                $em = $this->getDoctrine()->getManager();
+
+                // Détection bouton enregistrer cliqué
+
+
+                //gestion si plus de danses -> suppression du powerpoint
+
+                // gestion de la creation du powerpoint
+
+
+                //$em->flush();
+
+                return new Response('form validé');
+
+                //return $this->redirectToRoute('all_powerpoint_user');
             }
 
             return $this->render('powerPoint/editPowerpoint.html.twig', [

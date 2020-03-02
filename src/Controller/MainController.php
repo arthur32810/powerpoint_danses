@@ -31,7 +31,8 @@ class MainController extends AbstractController
         if($this->isGranted('ROLE_USER'))
         {
             $form = $this->createForm(PowerPointType::class, $powerpoint, [
-                'name_button'=> 'Enregistrer et générer'
+                'name_button'=> 'Enregistrer et générer',
+                'disabled_button_generate'=>false,
             ]);
         }
         else { $form = $this->createForm(PowerPointType::class, $powerpoint); }
@@ -62,6 +63,14 @@ class MainController extends AbstractController
                 //Persistance et flush
                 $em->persist($powerpoint);
                 $em->flush();
+            }
+
+            //Si bouton enregistrer cliqué, on redigire apres la mise en bdd et avant la génération powerpoint
+            if($form->getClickedButton() && 'onlySave' === $form->getClickedButton()->getName())
+            {
+                $this->addFlash('success', 'Votre powerpoint a bien été créé');
+
+                return $this->redirectToRoute('all_powerpoint_user');
             }
 
 

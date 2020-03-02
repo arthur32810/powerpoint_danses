@@ -19,7 +19,7 @@ class PowerPoint
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Danse", mappedBy="powerPoint", orphanRemoval=true, cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Danse", mappedBy="powerPoint", orphanRemoval=true, cascade={"all"})
      */
     private $danses;
 

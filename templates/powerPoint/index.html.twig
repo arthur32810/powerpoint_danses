@@ -7,8 +7,10 @@
         <h1> Bienvenue sur le Générateur de Présentation PowerPoint</h1>
         <br>
 
-        <p> Attention ! Si vous souhaitez pouvoir enregistrer le formulaire pour le modifier ultérieurement il faut absolument vous
-            <a href="{{ path('app_login') }}"> Connecter</a> ou vous <a href="{{ path('app_register') }}"> Inscrire </a> avant de le compléter</p>
+        {% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            <p> Attention ! Si vous souhaitez enregistrer le formulaire pour le modifier ultérieurement il faut absolument vous
+                <a href="{{ path('app_login') }}"> Connecter</a> ou vous <a href="{{ path('app_register') }}"> Inscrire </a> avant de le compléter</p>
+        {%  endif %}
 
     {%  include 'powerPoint/form/formPowerPoint.html.twig' %}
 

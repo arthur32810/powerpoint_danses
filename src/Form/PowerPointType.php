@@ -21,8 +21,13 @@ class PowerPointType extends AbstractType
             ->add('danses', CollectionType::class,[
                 'entry_type'=>DanseType::class,
                 'allow_add'=> true,
+                'allow_delete'=>true,
                 'entry_options'=> ['label'=>false, 'attr' => ['class' => 'champ_exist_danses']],
 
+            ])
+            ->add('onlySave', SubmitType::class, [
+                'label'=> 'Enregistrer',
+                'disabled' => $options['disabled_button_generate']
             ])
             ->add('save', SubmitType::class, [
                 'label'=> $options['name_button'],
@@ -35,7 +40,8 @@ class PowerPointType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => PowerPoint::class,
-            'name_button'=>'Générer'
+            'name_button'=>'Générer',
+            'disabled_button_generate'=>true,
         ]);
 
         $resolver->setAllowedTypes('name_button', 'string');
