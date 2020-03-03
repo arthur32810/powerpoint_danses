@@ -6,10 +6,12 @@ namespace App\Controller;
 
 use App\Entity\PowerPoint;
 use App\Form\PowerPointType;
+use App\Service\PowerPointGenerator;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PowerPointController extends AbstractController
@@ -32,7 +34,7 @@ class PowerPointController extends AbstractController
     /**
      * @Route("/powerpoints/{id}", name="powerpoint_edit")
      */
-    public function editPowerpoint(PowerPoint $powerPoint, Request $request)
+    public function editPowerpoint(PowerPoint $powerPoint, PowerPointGenerator $powerPointGenerator, SessionInterface $session, Request $request)
     {
         if($powerPoint->getUser() == $this->getUser()){
 
@@ -44,21 +46,37 @@ class PowerPointController extends AbstractController
             $form->handleRequest($request);
 
             if($form->isSubmitted() && $form->isValid()) {
+
                 $em = $this->getDoctrine()->getManager();
-
-                // Détection bouton enregistrer cliqué
-
 
                 //gestion si plus de danses -> suppression du powerpoint
 
+                //Pour chaque nouvelle danses
+                foreach ($powerPoint->getDanses() as $danse)
+                {
+                    if($danse->getId() === null)
+                    {
+                        $danse->setPowerPoint($powerPoint);
+                    }
+                }
+
+                $em->flush();
+                $this->addFlash('success', 'Votre powerpoint a bien été enregistré');
+
+                // Détection bouton enregistrer cliqué
+                if($form->getClickedButton() && 'onlySave' === $form->getClickedButton()->getName())
+                {
+                    return $this->redirectToRoute('all_powerpoint_user');
+                }
+
                 // gestion de la creation du powerpoint
+               $urlPowerpoint = $powerPointGenerator->main($powerPoint->getDanses());
 
+               $this->addFlash('success', 'Le fichier a bien été généré !');
 
-                //$em->flush();
+               $session->set('urlPowerpoint', $urlPowerpoint);
 
-                return new Response('form validé');
-
-                //return $this->redirectToRoute('all_powerpoint_user');
+               return $this->redirectToRoute('powerpoint_download');
             }
 
             return $this->render('powerPoint/editPowerpoint.html.twig', [

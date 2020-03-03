@@ -13,6 +13,16 @@ use PhpOffice\PhpPresentation\Style\Color;
 
 class PowerPointGenerator
 {
+    public function main($danse){
+        //Creation du powerpoint
+       $presentation = $this->newPresentation($danse);
+
+       //mise en fichier et telechargement
+       $urlPowerpoint= $this->savePowerpointPPTX($presentation);
+
+       return $urlPowerpoint;
+    }
+
     public function savePowerpointPPTX($objPHPPowerPoint){
         //Sauvegarde au format PPTX
         $oWriterPPTX = IOFactory::createWriter($objPHPPowerPoint, 'PowerPoint2007');
@@ -34,7 +44,7 @@ class PowerPointGenerator
     }
 
 
-    public function main($danses){
+    public function newPresentation($danses){
 
         //Définition d'un nouveau PowerPoint
        $objPHPPowerPoint = new PhpPresentation();

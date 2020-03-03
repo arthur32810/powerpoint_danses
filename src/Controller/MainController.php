@@ -68,15 +68,14 @@ class MainController extends AbstractController
             //Si bouton enregistrer cliqué, on redigire apres la mise en bdd et avant la génération powerpoint
             if($form->getClickedButton() && 'onlySave' === $form->getClickedButton()->getName())
             {
-                $this->addFlash('success', 'Votre powerpoint a bien été créé');
+                $this->addFlash('success', 'Votre powerpoint a bien été enregistré');
 
                 return $this->redirectToRoute('all_powerpoint_user');
             }
 
 
             //Appel du service de création du fichier Powerpoint
-            $presentation = $powerPointGenerator->main($dansesOrdonner);
-            $urlPPTX = $powerPointGenerator->savePowerpointPPTX($presentation);
+            $urlPPTX = $powerPointGenerator->main($dansesOrdonner);
 
             $this->addFlash('success', 'Le fichier a bien été généré !');
 
