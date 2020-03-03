@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\PowerPoint;
 use App\Form\PowerPointType;
+use App\Service\OrderObject;
 use App\Service\PowerPointGenerator;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,7 +35,7 @@ class PowerPointController extends AbstractController
     /**
      * @Route("/powerpoints/{id}", name="powerpoint_edit", requirements={"id"="\d+"} )
      */
-    public function editPowerpoint(PowerPoint $powerPoint, PowerPointGenerator $powerPointGenerator, SessionInterface $session, Request $request)
+    public function editPowerpoint(PowerPoint $powerPoint, PowerPointGenerator $powerPointGenerator, OrderObject $orderObject, SessionInterface $session, Request $request)
     {
         if($powerPoint->getUser() == $this->getUser()){
 
@@ -47,14 +48,13 @@ class PowerPointController extends AbstractController
 
             if($form->isSubmitted() && $form->isValid()) {
 
+                //gestion si plus de danses -> suppression du powerpoint
                 if(count($powerPoint->getDanses()) === 0)
                 {
                     return $this->redirectToRoute('powerpoint_delete', ['id'=>$powerPoint->getId()]);
                 }
 
                 $em = $this->getDoctrine()->getManager();
-
-                //gestion si plus de danses -> suppression du powerpoint
 
                 //Pour chaque nouvelle danses
                 foreach ($powerPoint->getDanses() as $danse)
@@ -74,9 +74,7 @@ class PowerPointController extends AbstractController
                     return $this->redirectToRoute('all_powerpoint_user');
                 }
 
-                // gestion de la creation du powerpoint
-               $urlPowerpoint = $powerPointGenerator->main($powerPoint->getDanses());
-
+                $urlPowerpoint = $powerPointGenerator->main($powerPoint->getDanses(), $form);
                $this->addFlash('success', 'Le fichier a bien été généré !');
 
                $session->set('urlPowerpoint', $urlPowerpoint);

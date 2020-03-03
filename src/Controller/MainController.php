@@ -43,8 +43,8 @@ class MainController extends AbstractController
             $powerpoint = $form->getData();
 
             //Ordonner par position_playlist
-            $dansesOrdonner = $orderObject->ordrePositionPlaylist($powerpoint->getDanses());
-            $dansesOrdonner = $orderObject->ordrePositionPlaylistReIndex($dansesOrdonner);
+            $dansesOrdonner = $orderObject->main($powerpoint->getDanses());
+
 
             //Enregistrement dans bdd pour utilisateur connectés
             if($this->isGranted('ROLE_USER')){
@@ -76,7 +76,7 @@ class MainController extends AbstractController
 
 
             //Appel du service de création du fichier Powerpoint
-            $urlPPTX = $powerPointGenerator->main($dansesOrdonner);
+            $urlPPTX = $powerPointGenerator->main($dansesOrdonner, $form);
 
             $this->addFlash('success', 'Le fichier a bien été généré !');
 

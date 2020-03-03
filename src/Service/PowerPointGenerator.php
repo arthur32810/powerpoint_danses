@@ -13,9 +13,12 @@ use PhpOffice\PhpPresentation\Style\Color;
 
 class PowerPointGenerator
 {
-    public function main($danse){
+    public function main($danse, $form){
+        //Récupération des valeurs personnalisée
+        $nbDansesSlides = $form->get('dansesSlides')->getData();
+
         //Creation du powerpoint
-       $presentation = $this->newPresentation($danse);
+       $presentation = $this->newPresentation($danse, $nbDansesSlides);
 
        //mise en fichier et telechargement
        $urlPowerpoint= $this->savePowerpointPPTX($presentation);
@@ -36,7 +39,7 @@ class PowerPointGenerator
     }
 
 
-    public function newPresentation($danses){
+    public function newPresentation($danses, $nbDansesSlides){
 
         //Définition d'un nouveau PowerPoint
        $objPHPPowerPoint = new PhpPresentation();
@@ -49,7 +52,6 @@ class PowerPointGenerator
        //Definition variable incrementale et recuperation nb danse
         $i =0;
         $countDanse = count($danses);
-
 
        foreach($danses as $danse)
        {
@@ -73,7 +75,7 @@ class PowerPointGenerator
            $textRun = $shape->createTextRun($danse->getPositionPlaylist().' - '.$danse->getName());
            $textRun->getFont()->setName('Arial Black')->setSize(42)->setColor(new Color('ffff00'));
 
-          for($j=$i+1, $y=1; $j<4; $j++, $y++)
+          for($j=$i+1, $y=1; $y<$nbDansesSlides; $j++, $y++)
           {
               if($y<($countDanse-$i))
               {

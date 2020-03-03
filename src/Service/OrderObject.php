@@ -9,6 +9,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 class OrderObject
 {
 
+    public function main($danses){
+        $dansesOrdonner = $this->ordrePositionPlaylist($danses);
+        $dansesOrdonner = $this->ordrePositionPlaylistReIndex($dansesOrdonner);
+
+        return $dansesOrdonner;
+    }
+
     public function ordrePositionPlaylist(ArrayCollection $fields): ArrayCollection
     {
         $iterator = $fields->getIterator();

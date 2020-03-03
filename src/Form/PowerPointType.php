@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\PowerPoint;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -24,6 +25,11 @@ class PowerPointType extends AbstractType
                 'allow_delete'=>true,
                 'entry_options'=> ['label'=>false, 'attr' => ['class' => 'champ_exist_danses']],
 
+            ])
+            ->add('dansesSlides', IntegerType::class, [
+                'mapped'=>false,
+                'label'=> 'Nombre de danses par slides',
+                'attr'=>['min'=>1, 'max'=>7, 'value'=>4]
             ])
             ->add('onlySave', SubmitType::class, [
                 'label'=> 'Enregistrer',
