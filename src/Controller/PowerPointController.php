@@ -47,6 +47,11 @@ class PowerPointController extends AbstractController
 
             if($form->isSubmitted() && $form->isValid()) {
 
+                if(count($powerPoint->getDanses()) === 0)
+                {
+                    return $this->redirectToRoute('powerpoint_delete', ['id'=>$powerPoint->getId()]);
+                }
+
                 $em = $this->getDoctrine()->getManager();
 
                 //gestion si plus de danses -> suppression du powerpoint
@@ -97,7 +102,7 @@ class PowerPointController extends AbstractController
      */
     public function powerpointDelete(PowerPoint $powerPoint){
         if($powerPoint->getUser() == $this->getUser()) {
-            $em = $this->getDoctrine()->getManager();
+           $em = $this->getDoctrine()->getManager();
 
             foreach ($powerPoint->getDanses() as $danse) {
                 $em->remove($danse);
