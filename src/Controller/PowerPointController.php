@@ -104,10 +104,6 @@ class PowerPointController extends AbstractController
         if($powerPoint->getUser() == $this->getUser()) {
            $em = $this->getDoctrine()->getManager();
 
-            foreach ($powerPoint->getDanses() as $danse) {
-                $em->remove($danse);
-            }
-
             $em->remove($powerPoint);
             $em->flush();
 

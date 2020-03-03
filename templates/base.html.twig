@@ -15,7 +15,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="{{ path('main') }}">Accueil <span class="sr-only">Accueil</span></a>
                 </li>
 
@@ -34,6 +34,9 @@
                         <a href="{{ path('all_powerpoint_user') }}" class="nav-link"> Mes Powerpoints </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ path('user_show', {id: app.user.id}) }}">Mon Compte</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_logout') }}" > Se déconnecter </a>
                     </li>
                 {%  endif %}
@@ -46,10 +49,6 @@
 
         {% block body %}{% endblock %}
     </div>
-
-    <footer>
-        <p><a href="{{ path('user_show', {id: app.user.id}) }}">profil</a></p>
-    </footer>
 
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

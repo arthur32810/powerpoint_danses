@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\DanseRepository")
@@ -23,6 +24,7 @@ class Danse
 
     /**
      * @ORM\Column(type="smallint")
+     * @Assert\PositiveOrZero
      */
     private $position_playlist;
 
