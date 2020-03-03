@@ -32,7 +32,7 @@ class PowerPointController extends AbstractController
     }
 
     /**
-     * @Route("/powerpoints/{id}", name="powerpoint_edit")
+     * @Route("/powerpoints/{id}", name="powerpoint_edit", requirements={"id"="\d+"} )
      */
     public function editPowerpoint(PowerPoint $powerPoint, PowerPointGenerator $powerPointGenerator, SessionInterface $session, Request $request)
     {
@@ -90,5 +90,30 @@ class PowerPointController extends AbstractController
         }
 
     }
+
+
+    /**
+     * @Route("/powerpoints/delete/{id}", name="powerpoint_delete", requirements={"id"="\d+"})
+     */
+    public function powerpointDelete(PowerPoint $powerPoint){
+        if($powerPoint->getUser() == $this->getUser()) {
+            $em = $this->getDoctrine()->getManager();
+
+            foreach ($powerPoint->getDanses() as $danse) {
+                $em->remove($danse);
+            }
+
+            $em->remove($powerPoint);
+            $em->flush();
+
+            $this->addFlash('success', 'La presentation a bien été supprimé');
+            return $this->redirectToRoute('all_powerpoint_user');
+        }
+        else {
+            $this->addFlash('danger', "Vous avez tenté d'accéder à un powerpoint qui ne vous appartient pas");
+            return $this->redirectToRoute('all_powerpoint_user');
+        }
+    }
+
 
 }
