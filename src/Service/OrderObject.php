@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class OrderObject
 {
 
-    public function ordrePostionPlaylist(ArrayCollection $fields): ArrayCollection
+    public function ordrePositionPlaylist(ArrayCollection $fields): ArrayCollection
     {
         $iterator = $fields->getIterator();
 
@@ -18,6 +18,19 @@ class OrderObject
         });
 
         return new ArrayCollection(iterator_to_array($iterator));
+    }
+
+    public function ordrePositionPlaylistReIndex($danses)
+    {
+        $dansesOrdonner = new \ArrayObject();
+
+        foreach($danses as $danse)
+        {
+            $dansesOrdonner->append($danse);
+
+        }
+
+       return $dansesOrdonner;
     }
 
 }

@@ -35,14 +35,6 @@ class PowerPointGenerator
         return $url;
     }
 
-    public function savePowerpointODP($presentation){
-       /* //Sauvegarde au format ODP
-        $oWriterODP = IOFactory::createWriter($objPHPPowerPoint, 'ODPresentation');
-        $oWriterODP->save(__DIR__."/sample.odp");*/
-
-        return 'url généré';
-    }
-
 
     public function newPresentation($danses){
 
@@ -53,6 +45,11 @@ class PowerPointGenerator
        $objPHPPowerPoint->getPresentationProperties()->setZoom(1);
 
        $objPHPPowerPoint->removeSlideByIndex(0);
+
+       //Definition variable incrementale et recuperation nb danse
+        $i =0;
+        $countDanse = count($danses);
+
 
        foreach($danses as $danse)
        {
@@ -74,8 +71,21 @@ class PowerPointGenerator
            $shape->getActiveParagraph()->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
 
            $textRun = $shape->createTextRun($danse->getPositionPlaylist().' - '.$danse->getName());
-
            $textRun->getFont()->setName('Arial Black')->setSize(42)->setColor(new Color('ffff00'));
+
+          for($j=$i+1, $y=1; $j<4; $j++, $y++)
+          {
+              if($y<($countDanse-$i))
+              {
+                  $shape->createBreak();
+
+                  $nameDanse = $danses[$j]->getName();
+                  $positionPlaylist= $danses[$j]->getPositionPlaylist();
+                  $textRun = $shape->createTextRun($positionPlaylist.' - '.$nameDanse);
+                  $textRun->getFont()->setName('Arial Black')->setSize(42)->setColor(new Color('ffffff'));
+              }
+
+          }
 
            //Ajout du logo LDA
            $shape = $currentSlide->createDrawingShape();
@@ -86,6 +96,9 @@ class PowerPointGenerator
                ->SetoffsetX(580)
                ->setOffsetY(400)
            ;
+
+           //incrementation variable $i
+           $i++;
        }
 
        return $objPHPPowerPoint;

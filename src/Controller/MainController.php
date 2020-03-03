@@ -43,7 +43,8 @@ class MainController extends AbstractController
             $powerpoint = $form->getData();
 
             //Ordonner par position_playlist
-            $dansesOrdonner = $orderObject->ordrePostionPlaylist($powerpoint->getDanses());
+            $dansesOrdonner = $orderObject->ordrePositionPlaylist($powerpoint->getDanses());
+            $dansesOrdonner = $orderObject->ordrePositionPlaylistReIndex($dansesOrdonner);
 
             //Enregistrement dans bdd pour utilisateur connectés
             if($this->isGranted('ROLE_USER')){
