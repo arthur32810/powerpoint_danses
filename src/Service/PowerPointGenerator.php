@@ -16,9 +16,13 @@ class PowerPointGenerator
     public function main($danse, $form){
         //Récupération des valeurs personnalisée
         $nbDansesSlides = $form->get('dansesSlides')->getData();
+        $primaryDanseColor = str_replace("#",'', $form->get('primaryDanseColor')->getData());
+        $secondaryDanseColor = str_replace("#", "", $form->get('secondaryDanseColor')->getData());
+
+        var_dump($primaryDanseColor);
 
         //Creation du powerpoint
-       $presentation = $this->newPresentation($danse, $nbDansesSlides);
+       $presentation = $this->newPresentation($danse, $nbDansesSlides, $primaryDanseColor, $secondaryDanseColor);
 
        //mise en fichier et telechargement
        $urlPowerpoint= $this->savePowerpointPPTX($presentation);
@@ -39,7 +43,7 @@ class PowerPointGenerator
     }
 
 
-    public function newPresentation($danses, $nbDansesSlides){
+    public function newPresentation($danses, $nbDansesSlides, $primaryDanseColor, $secondaryDanseColor){
 
         //Définition d'un nouveau PowerPoint
        $objPHPPowerPoint = new PhpPresentation();
@@ -73,7 +77,8 @@ class PowerPointGenerator
            $shape->getActiveParagraph()->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
 
            $textRun = $shape->createTextRun($danse->getPositionPlaylist().' - '.$danse->getName());
-           $textRun->getFont()->setName('Arial Black')->setSize(42)->setColor(new Color('ffff00'));
+           $textRun->getFont()->setName('Arial Black')->setSize(42)->setColor(new Color('#004080'));
+           var_dump(new Color($primaryDanseColor));
 
           for($j=$i+1, $y=1; $y<$nbDansesSlides; $j++, $y++)
           {
@@ -84,7 +89,7 @@ class PowerPointGenerator
                   $nameDanse = $danses[$j]->getName();
                   $positionPlaylist= $danses[$j]->getPositionPlaylist();
                   $textRun = $shape->createTextRun($positionPlaylist.' - '.$nameDanse);
-                  $textRun->getFont()->setName('Arial Black')->setSize(42)->setColor(new Color('ffffff'));
+                  $textRun->getFont()->setName('Arial Black')->setSize(42)->setColor(new Color($secondaryDanseColor));
               }
 
           }

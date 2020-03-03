@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\PowerPoint;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -30,6 +31,16 @@ class PowerPointType extends AbstractType
                 'mapped'=>false,
                 'label'=> 'Nombre de danses par slides',
                 'attr'=>['min'=>1, 'max'=>7, 'value'=>4]
+            ])
+            ->add('primaryDanseColor', ColorType::class,[
+                'label'=>'Couleur de la danse principale',
+                'mapped'=>false,
+                'attr'=>['value'=>'#ffff00']
+            ])
+            ->add('secondaryDanseColor', ColorType::class,[
+                'label'=>'Couleur des danses secondaires',
+                'mapped'=>false,
+                'attr' => ['value'=>'#ffffff']
             ])
             ->add('onlySave', SubmitType::class, [
                 'label'=> 'Enregistrer',
