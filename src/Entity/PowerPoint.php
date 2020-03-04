@@ -36,9 +36,27 @@ class PowerPoint
      */
     private $name;
 
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    private $nbDansesSlides;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $primaryDanseColor;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $secondaryDanseColor;
+
     public function __construct()
     {
         $this->danses = new ArrayCollection();
+        $this->nbDansesSlides = 4;
+        $this->primaryDanseColor = '#ffff00';
+        $this->secondaryDanseColor = '#ffffff';
     }
 
     public function getId(): ?int
@@ -97,6 +115,42 @@ class PowerPoint
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getNbDansesSlides(): ?int
+    {
+        return $this->nbDansesSlides;
+    }
+
+    public function setNbDansesSlides(int $nbDansesSlides): self
+    {
+        $this->nbDansesSlides = $nbDansesSlides;
+
+        return $this;
+    }
+
+    public function getPrimaryDanseColor(): ?string
+    {
+        return $this->primaryDanseColor;
+    }
+
+    public function setPrimaryDanseColor(string $primaryDanseColor): self
+    {
+        $this->primaryDanseColor = $primaryDanseColor;
+
+        return $this;
+    }
+
+    public function getSecondaryDanseColor(): ?string
+    {
+        return $this->secondaryDanseColor;
+    }
+
+    public function setSecondaryDanseColor(string $secondaryDanseColor): self
+    {
+        $this->secondaryDanseColor = $secondaryDanseColor;
 
         return $this;
     }

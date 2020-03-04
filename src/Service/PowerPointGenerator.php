@@ -13,11 +13,11 @@ use PhpOffice\PhpPresentation\Style\Color;
 
 class PowerPointGenerator
 {
-    public function main($danse, $form){
+    public function main($danse, $powerpoint){
         //Récupération des valeurs personnalisée
-        $nbDansesSlides = $form->get('dansesSlides')->getData();
-        $primaryDanseColor = str_replace("#",'', $form->get('primaryDanseColor')->getData());
-        $secondaryDanseColor = str_replace("#", "", $form->get('secondaryDanseColor')->getData());
+        $nbDansesSlides = $powerpoint->getNbDansesSlides();
+        $primaryDanseColor = str_replace("#",'', $powerpoint->getPrimaryDanseColor());
+        $secondaryDanseColor = str_replace("#", "", $powerpoint->getSecondaryDanseColor());
 
         var_dump($primaryDanseColor);
 
@@ -77,8 +77,7 @@ class PowerPointGenerator
            $shape->getActiveParagraph()->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
 
            $textRun = $shape->createTextRun($danse->getPositionPlaylist().' - '.$danse->getName());
-           $textRun->getFont()->setName('Arial Black')->setSize(42)->setColor(new Color('#004080'));
-           var_dump(new Color($primaryDanseColor));
+           $test = $textRun->getFont()->setName('Arial Black')->setSize(42)->getColor()->setRGB($primaryDanseColor);
 
           for($j=$i+1, $y=1; $y<$nbDansesSlides; $j++, $y++)
           {

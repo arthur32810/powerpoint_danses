@@ -27,20 +27,16 @@ class PowerPointType extends AbstractType
                 'entry_options'=> ['label'=>false, 'attr' => ['class' => 'champ_exist_danses']],
 
             ])
-            ->add('dansesSlides', IntegerType::class, [
-                'mapped'=>false,
+            ->add('nbDansesSlides', IntegerType::class, [
+
                 'label'=> 'Nombre de danses par slides',
-                'attr'=>['min'=>1, 'max'=>7, 'value'=>4]
+                'attr'=>['min'=>1, 'max'=>7]
             ])
             ->add('primaryDanseColor', ColorType::class,[
                 'label'=>'Couleur de la danse principale',
-                'mapped'=>false,
-                'attr'=>['value'=>'#ffff00']
             ])
             ->add('secondaryDanseColor', ColorType::class,[
                 'label'=>'Couleur des danses secondaires',
-                'mapped'=>false,
-                'attr' => ['value'=>'#ffffff']
             ])
             ->add('onlySave', SubmitType::class, [
                 'label'=> 'Enregistrer',

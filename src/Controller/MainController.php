@@ -76,7 +76,7 @@ class MainController extends AbstractController
 
 
             //Appel du service de création du fichier Powerpoint
-            $urlPPTX = $powerPointGenerator->main($dansesOrdonner, $form);
+            $urlPPTX = $powerPointGenerator->main($dansesOrdonner, $powerpoint);
 
             $this->addFlash('success', 'Le fichier a bien été généré !');
 
