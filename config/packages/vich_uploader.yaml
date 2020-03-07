@@ -1,6 +1,12 @@
 vich_uploader:
     db_driver: orm
 
+    mappings:
+        powerpoint_backgroundSlides:
+            uri_prefix: /uploads/images/backgroundSlides
+            upload_destination: '%kernel.project_dir%/public/uploads/images/backgroundSlides'
+            namer: Vich\UploaderBundle\Naming\UniqidNamer
+
     #mappings:
     #    products:
     #        uri_prefix: /images/products

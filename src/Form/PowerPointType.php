@@ -6,6 +6,7 @@ use App\Entity\PowerPoint;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -37,6 +38,10 @@ class PowerPointType extends AbstractType
             ])
             ->add('secondaryDanseColor', ColorType::class,[
                 'label'=>'Couleur des danses secondaires',
+            ])
+            ->add('backgroundSlidesImageFile', FileType::class, [
+                'required' => false,
+                'label' => 'Arrière plan de la présentation'
             ])
             ->add('onlySave', SubmitType::class, [
                 'label'=> 'Enregistrer',

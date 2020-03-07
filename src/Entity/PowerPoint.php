@@ -5,10 +5,13 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PowerPointRepository")
+ * @Vich\Uploadable()
  */
 class PowerPoint
 {
@@ -50,6 +53,23 @@ class PowerPoint
      * @ORM\Column(type="string", length=255)
      */
     private $secondaryDanseColor;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $backgroundSlides;
+
+    /**
+     * @Vich\UploadableField(mapping="powerpoint_backgroundSlides", fileNameProperty="backgroundSlides")
+     * @var File
+     */
+    private $backgroundSlidesImageFile;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $backgroundSlidesUpdatedAt;
+
 
     public function __construct()
     {
@@ -151,6 +171,50 @@ class PowerPoint
     public function setSecondaryDanseColor(string $secondaryDanseColor): self
     {
         $this->secondaryDanseColor = $secondaryDanseColor;
+
+        return $this;
+    }
+
+    public function getBackgroundSlides(): ?string
+    {
+        return $this->backgroundSlides;
+    }
+
+    public function setBackgroundSlides(?string $backgroundSlides): self
+    {
+        $this->backgroundSlides = $backgroundSlides;
+
+        return $this;
+    }
+
+    /**
+     * @param File $backgroundSlidesImageFile
+     */
+    public function setBackgroundSlidesImageFile(?File $backgroundSlidesImageFile = null): void
+    {
+        $this->backgroundSlidesImageFile = $backgroundSlidesImageFile;
+
+        if(null !== $backgroundSlidesImageFile){
+            $this->backgroundSlidesUpdatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    /**
+     * @return File
+     */
+    public function getBackgroundSlidesImageFile(): ?File
+    {
+        return $this->backgroundSlidesImageFile;
+    }
+
+    public function getBackgroundSlidesUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->backgroundSlidesUpdatedAt;
+    }
+
+    public function setBackgroundSlidesUpdatedAt(?\DateTimeInterface $backgroundSlidesUpdatedAt): self
+    {
+        $this->backgroundSlidesUpdatedAt = $backgroundSlidesUpdatedAt;
 
         return $this;
     }
