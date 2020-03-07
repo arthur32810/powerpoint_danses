@@ -65,12 +65,20 @@ class PowerPointController extends AbstractController
                     }
                 }
 
+                if($powerPoint->getBackgroundSlidesDefaut())
+                {
+                    $powerPoint->setBackgroundSlides(null);
+                    $powerPoint->setBackgroundSlidesImageFile(null);
+                }
+
+
                 $em->flush();
                 $this->addFlash('success', 'Votre powerpoint a bien été enregistré');
 
                 // Détection bouton enregistrer cliqué
                 if($form->getClickedButton() && 'onlySave' === $form->getClickedButton()->getName())
                 {
+                    //return new Response('traitement en cours');
                     return $this->redirectToRoute('all_powerpoint_user');
                 }
 
