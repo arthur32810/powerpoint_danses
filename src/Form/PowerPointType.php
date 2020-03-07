@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\PowerPoint;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -38,6 +39,10 @@ class PowerPointType extends AbstractType
             ])
             ->add('secondaryDanseColor', ColorType::class,[
                 'label'=>'Couleur des danses secondaires',
+            ])
+            ->add('backgroundSlidesDefaut', CheckboxType::class, [
+                'label'=> "Utiliser l'arrière plan par défaut",
+                'required' => false,
             ])
             ->add('backgroundSlidesImageFile', FileType::class, [
                 'required' => false,

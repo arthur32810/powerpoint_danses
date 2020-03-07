@@ -1,6 +1,29 @@
 {{ form_start(form) }}
-        {{ form_row(form.danses) }}
+
+{{ form_row(form.danses) }}
 <button type="button" id="add_category" class="btn btn-secondary" style="margin-bottom:2%">Ajouter une danse</button>
+
+{{ form_row(form.name) }}
+
+{{ form_row(form.nbDansesSlides) }}
+
+{{ form_row(form.primaryDanseColor) }}
+{{ form_row(form.secondaryDanseColor) }}
+
+{{ form_row(form.backgroundSlidesDefaut) }}
+<img src="{{ asset('build/images/powerpoint/background_slide.jpg') }}" alt="Arrière plan par défaut" height="300">
+
+{{ form_row(form.backgroundSlidesImageFile) }}
+
+{%  if form.vars.data.backgroundSlides is not empty %}
+    <p> Votre fond de présentation actuel </p>
+
+    {%  if form.vars.data.backgroundSlides| default %}
+        <img src="{{ absolute_url(asset('/uploads/images/backgroundSlides/'~form.vars.data.backgroundSlides)) }}" height="300", style="margin-bottom: 2%;">
+
+    {%  endif %}
+{%  endif %}
+
 
 {{ form_rest(form) }}
 {{ form_end(form) }}

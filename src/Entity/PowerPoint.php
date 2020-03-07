@@ -70,6 +70,11 @@ class PowerPoint
      */
     private $backgroundSlidesUpdatedAt;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $backgroundSlidesDefaut;
+
 
     public function __construct()
     {
@@ -215,6 +220,18 @@ class PowerPoint
     public function setBackgroundSlidesUpdatedAt(?\DateTimeInterface $backgroundSlidesUpdatedAt): self
     {
         $this->backgroundSlidesUpdatedAt = $backgroundSlidesUpdatedAt;
+
+        return $this;
+    }
+
+    public function getBackgroundSlidesDefaut(): ?bool
+    {
+        return $this->backgroundSlidesDefaut;
+    }
+
+    public function setBackgroundSlidesDefaut(bool $backgroundSlidesDefaut): self
+    {
+        $this->backgroundSlidesDefaut = $backgroundSlidesDefaut;
 
         return $this;
     }
