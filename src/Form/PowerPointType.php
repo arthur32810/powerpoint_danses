@@ -46,7 +46,7 @@ class PowerPointType extends AbstractType
             ])
             ->add('backgroundSlidesImageFile', FileType::class, [
                 'required' => false,
-                'label' => 'Arrière plan de la présentation'
+                'label' => 'Arrière plan de la présentation, fonctionne si "arrière-plan par défaut" est décoché'
             ])
             ->add('onlySave', SubmitType::class, [
                 'label'=> 'Enregistrer',

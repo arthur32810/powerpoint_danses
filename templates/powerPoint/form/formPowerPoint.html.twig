@@ -11,12 +11,12 @@
 {{ form_row(form.secondaryDanseColor) }}
 
 {{ form_row(form.backgroundSlidesDefaut) }}
-<img src="{{ asset('build/images/powerpoint/background_slide.jpg') }}" alt="Arrière plan par défaut" height="300">
+<img src="{{ asset('build/images/powerpoint/background_slide.jpg') }}" alt="Arrière plan par défaut" height="300", style="margin-bottom: 2%;">
 
 {{ form_row(form.backgroundSlidesImageFile) }}
 
 {%  if form.vars.data.backgroundSlides is not empty %}
-    <p> Votre fond de présentation actuel </p>
+    <p> Votre arrière-plan de présentation actuel </p>
 
     {%  if form.vars.data.backgroundSlides| default %}
         <img src="{{ absolute_url(asset('/uploads/images/backgroundSlides/'~form.vars.data.backgroundSlides)) }}" height="300", style="margin-bottom: 2%;">
