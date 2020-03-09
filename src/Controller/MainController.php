@@ -8,6 +8,7 @@ use App\Form\PowerPointType;
 use App\Service\OrderObject;
 use App\Service\PowerPointGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -86,8 +87,9 @@ class MainController extends AbstractController
         }
 
         //Retourne la vue non formulaire
-        return $this->render('powerPoint/index.html.twig', [
+        return $this->render('powerPoint/indexPowerpoint.html.twig', [
             'form'=>$form->createView(),
+            'page'=>'home',
         ]);
 
     }
@@ -122,8 +124,9 @@ class MainController extends AbstractController
 
     /**
      * @Route("/test", name="app_test")
+     * @return Response
      */
-    public function test()
+    public function test( )
     {
 
       return new Response("<body> C'est persisté </body>");

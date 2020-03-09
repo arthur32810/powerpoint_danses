@@ -50,11 +50,12 @@ class PowerPointType extends AbstractType
             ])
             ->add('onlySave', SubmitType::class, [
                 'label'=> 'Enregistrer',
-                'disabled' => $options['disabled_button_generate']
+                'disabled' => $options['disabled_button_generate'],
+                'attr'=> ['class'=> 'btn btn-primary btn-submit-form']
             ])
             ->add('save', SubmitType::class, [
                 'label'=> $options['name_button'],
-                'attr'=>['class'=>'btn btn-info']
+                'attr'=>['class'=>'btn btn-info btn-submit-form']
             ])
         ;
     }

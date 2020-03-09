@@ -1,9 +1,13 @@
 {%  extends 'base.html.twig' %}
 
+{%  block stylesheets %}
+{% endblock %}
+
 {%  block body %}
 
     {% include 'component/allFlashesMessage.html.twig' %}
 
+    {%  if page == 'home' %}
         <h1> Bienvenue sur le Générateur de Présentation PowerPoint</h1>
         <br>
 
@@ -11,6 +15,13 @@
             <p> Attention ! Si vous souhaitez enregistrer le formulaire pour le modifier ultérieurement il faut absolument vous
                 <a href="{{ path('app_login') }}"> Connecter</a> ou vous <a href="{{ path('app_register') }}"> Inscrire </a> avant de le compléter</p>
         {%  endif %}
+    {%  endif %}
+
+    {%  if page == 'edit_powerpoint' %}
+        <h1> Modification du powerpoint : {{ title_powerpoint }}</h1>
+    {%  endif %}
+
+
 
     {%  include 'powerPoint/form/formPowerPoint.html.twig' %}
 
@@ -18,4 +29,5 @@
 
 {%  block javascripts %}
     {%  include 'powerPoint/form/javascriptFormPowerPoint.html.twig' %}
+
 {%  endblock %}

@@ -94,8 +94,10 @@ class PowerPointController extends AbstractController
                return $this->redirectToRoute('powerpoint_download');
             }
 
-            return $this->render('powerPoint/editPowerpoint.html.twig', [
+            return $this->render('powerPoint/indexPowerpoint.html.twig', [
                 'form'=>$form->createView(),
+                'title_powerpoint'=> $powerPoint->getName(),
+                'page'=>'edit_powerpoint'
             ]);
 
         }
