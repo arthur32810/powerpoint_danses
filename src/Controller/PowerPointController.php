@@ -83,11 +83,10 @@ class PowerPointController extends AbstractController
                 // Détection bouton enregistrer cliqué
                 if($form->getClickedButton() && 'onlySave' === $form->getClickedButton()->getName())
                 {
-                    //return new Response('traitement en cours');
                     return $this->redirectToRoute('all_powerpoint_user');
                 }
 
-                $urlPowerpoint = $powerPointGenerator->main($powerPoint->getDanses(), $form);
+                $urlPowerpoint = $powerPointGenerator->main($powerPoint->getDanses(), $form->getData());
                $this->addFlash('success', 'Le fichier a bien été généré !');
 
                $session->set('urlPowerpoint', $urlPowerpoint);

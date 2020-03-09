@@ -62,6 +62,9 @@ class PowerPoint
     /**
      * @Vich\UploadableField(mapping="powerpoint_backgroundSlides", fileNameProperty="backgroundSlides")
      * @var File
+     * @Assert\Image(
+     *      allowPortrait = false,
+     * )
      */
     private $backgroundSlidesImageFile;
 

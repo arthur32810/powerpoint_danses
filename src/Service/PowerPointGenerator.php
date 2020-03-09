@@ -4,6 +4,7 @@
 namespace App\Service;
 
 
+use App\Objects\PropertiesPowerpoint;
 use PhpOffice\PhpPresentation\DocumentLayout;
 use PhpOffice\PhpPresentation\IOFactory;
 use PhpOffice\PhpPresentation\PhpPresentation;
@@ -15,14 +16,23 @@ class PowerPointGenerator
 {
     public function main($danse, $powerpoint){
         //Récupération des valeurs personnalisée
-        $nbDansesSlides = $powerpoint->getNbDansesSlides();
-        $primaryDanseColor = str_replace("#",'', $powerpoint->getPrimaryDanseColor());
-        $secondaryDanseColor = str_replace("#", "", $powerpoint->getSecondaryDanseColor());
+        $propertiesPowerpoint = new PropertiesPowerpoint();
 
-        var_dump($primaryDanseColor);
+        $propertiesPowerpoint->setNbDansesSlides($powerpoint->getNbDansesSlides());
+        $propertiesPowerpoint->setPrimaryDanseColor(str_replace("#",'', $powerpoint->getPrimaryDanseColor()));
+        $propertiesPowerpoint->getSecondaryDanseColor(str_replace("#", "", $powerpoint->getSecondaryDanseColor()));
+
+        if( !empty($powerpoint->getBackgroundSlides()) ) {
+            $backgroundSlides = $_SERVER['DOCUMENT_ROOT']."uploads/images/backgroundSlides/".$powerpoint->getBackgroundSlides();
+        }
+        else {
+            $backgroundSlides = $_SERVER['DOCUMENT_ROOT']."build/images/powerpoint/background_slide.jpg";
+        }
+
+        $propertiesPowerpoint->setBackgroundSlides($backgroundSlides);
 
         //Creation du powerpoint
-       $presentation = $this->newPresentation($danse, $nbDansesSlides, $primaryDanseColor, $secondaryDanseColor);
+       $presentation = $this->newPresentation($danse, $propertiesPowerpoint);
 
        //mise en fichier et telechargement
        $urlPowerpoint= $this->savePowerpointPPTX($presentation);
@@ -43,7 +53,7 @@ class PowerPointGenerator
     }
 
 
-    public function newPresentation($danses, $nbDansesSlides, $primaryDanseColor, $secondaryDanseColor){
+    public function newPresentation($danses, $propertiesPowerpoint){
 
         //Définition d'un nouveau PowerPoint
        $objPHPPowerPoint = new PhpPresentation();
@@ -64,7 +74,7 @@ class PowerPointGenerator
 
            //Creation du background
            $oBkgImage = new Image();
-           $oBkgImage->setPath($_SERVER['DOCUMENT_ROOT']."build/images/powerpoint/background_slide.jpg"); //Modifier la valeur par l'image choisie de l'utilisateur
+           $oBkgImage->setPath($propertiesPowerpoint->getBackgroundSlides());
            $currentSlide->setBackground($oBkgImage);
 
            //Ajout d'un texte
@@ -77,9 +87,9 @@ class PowerPointGenerator
            $shape->getActiveParagraph()->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
 
            $textRun = $shape->createTextRun($danse->getPositionPlaylist().' - '.$danse->getName());
-           $test = $textRun->getFont()->setName('Arial Black')->setSize(42)->getColor()->setRGB($primaryDanseColor);
+           $test = $textRun->getFont()->setName('Arial Black')->setSize(42)->getColor()->setRGB($propertiesPowerpoint->getPrimaryDanseColor());
 
-          for($j=$i+1, $y=1; $y<$nbDansesSlides; $j++, $y++)
+          for($j=$i+1, $y=1; $y<$propertiesPowerpoint->getNbDansesSlides(); $j++, $y++)
           {
               if($y<($countDanse-$i))
               {
@@ -88,7 +98,7 @@ class PowerPointGenerator
                   $nameDanse = $danses[$j]->getName();
                   $positionPlaylist= $danses[$j]->getPositionPlaylist();
                   $textRun = $shape->createTextRun($positionPlaylist.' - '.$nameDanse);
-                  $textRun->getFont()->setName('Arial Black')->setSize(42)->setColor(new Color($secondaryDanseColor));
+                  $textRun->getFont()->setName('Arial Black')->setSize(42)->setColor(new Color($propertiesPowerpoint->getSecondaryDanseColor()));
               }
 
           }
