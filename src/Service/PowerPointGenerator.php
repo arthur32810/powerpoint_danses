@@ -107,7 +107,7 @@ class PowerPointGenerator
            $shape = $currentSlide->createDrawingShape();
            $shape->setName('Logo LDA')
                ->setDescription('Logo LDA')
-               ->setPath($_SERVER['DOCUMENT_ROOT']."build/images/powerpoint/logo_LDA.png")
+               ->setPath($_SERVER['DOCUMENT_ROOT']."/build/images/powerpoint/logo_LDA.png")
                ->setHeight(135)
                ->SetoffsetX(580)
                ->setOffsetY(400)
