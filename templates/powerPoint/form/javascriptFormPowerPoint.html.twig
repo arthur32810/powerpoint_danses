@@ -6,8 +6,11 @@
 {# Voici le script en question : #}
 <script type="text/javascript">
 
-    $(document).ready(function() {
+    $(document).on("wheel", "input[type=number]", function (e) {
+        $(this).blur();
+    });
 
+    $(document).ready(function() {
         //On met les liens pour les champs existant
         $('div.champ_exist_danses').each(function(e){
             addDeleteLink($('div#power_point_danses_'+e));
