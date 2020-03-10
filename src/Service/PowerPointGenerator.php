@@ -20,7 +20,7 @@ class PowerPointGenerator
 
         $propertiesPowerpoint->setNbDansesSlides($powerpoint->getNbDansesSlides());
         $propertiesPowerpoint->setPrimaryDanseColor(str_replace("#",'', $powerpoint->getPrimaryDanseColor()));
-        $propertiesPowerpoint->getSecondaryDanseColor(str_replace("#", "", $powerpoint->getSecondaryDanseColor()));
+        $propertiesPowerpoint->setSecondaryDanseColor(str_replace("#", "", $powerpoint->getSecondaryDanseColor()));
 
         if( !empty($powerpoint->getBackgroundSlides()) ) {
             $backgroundSlides = $_SERVER['DOCUMENT_ROOT']."uploads/images/backgroundSlides/".$powerpoint->getBackgroundSlides();
