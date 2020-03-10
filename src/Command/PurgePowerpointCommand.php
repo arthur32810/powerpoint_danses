@@ -34,12 +34,14 @@ class PurgePowerpointCommand extends Command
 
         foreach(scandir($dir) as $file)
         {
-           $dateFile = filemtime($dir.'/'.$file);
+            if(!is_dir($file)) {
+                $dateFile = filemtime($dir . '/' . $file);
 
-           if($dateFile < $dateRetrait){
-               unlink($dir.'/'.$file);
-           }
+                if ($dateFile < $dateRetrait) {
+                    unlink($dir.'/'.$file);
+                }
 
+            }
         }
 
         return 0;
