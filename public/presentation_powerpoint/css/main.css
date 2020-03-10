@@ -1,0 +1,7 @@
+body {
+    background: url("../images/background_body.jpg") fixed;
+}
+
+#main-page {
+    background-color: rgb(255,255,255, .8);
+}
