@@ -34,6 +34,14 @@
                             <li class="nav-item">
                                 <a href="{{ path('all_powerpoint_user') }}" class="nav-link"> Mes Powerpoints </a>
                             </li>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <li class="nav-item">
+                                    <a href="{{ path('user_list_admin') }}" class="nav-link"> Admin: Tous les utilisateurs</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ path('all_powerpoint_user') }}" class="nav-link"> Admin: Tous les powerpoints sur le site</a>
+                                </li>
+                            {%  endif %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ path('user_show', {id: app.user.id}) }}">Mon Compte</a>
                             </li>
