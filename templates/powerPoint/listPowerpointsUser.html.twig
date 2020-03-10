@@ -11,7 +11,7 @@
             <p>
                 <a href="{{ path('powerpoint_edit', {id: powerpoint.id}) }}"> Edition du powerpoint :  {{ powerpoint.name }}</a>
                 <br>
-                <a href="{{ path('powerpoint_delete', {id: powerpoint.id}) }}" style="color: red" onclick="confirm('Etes vous sur de vouloir supprimer cette présentation');"> Supression powerpoint: {{ powerpoint.name }}</a>
+                <a href="{{ path('powerpoint_delete', {id: powerpoint.id}) }}" style="color: red" onclick="return confirm('Etes vous sur de vouloir supprimer cette présentation');"> Supression powerpoint: {{ powerpoint.name }}</a>
             </p>
         {%  endfor %}
     {%  endif %}

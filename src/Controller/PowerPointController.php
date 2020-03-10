@@ -39,7 +39,7 @@ class PowerPointController extends AbstractController
      */
     public function editPowerpoint(PowerPoint $powerPoint, PowerPointGenerator $powerPointGenerator, OrderObject $orderObject, SessionInterface $session, Request $request)
     {
-        if($powerPoint->getUser() == $this->getUser()){
+        if(($powerPoint->getUser() == $this->getUser()) || in_array("ROLE_ADMIN", $this->getUser()->getRoles())){
 
             $form = $this->createForm(PowerPointType::class, $powerPoint, [
                 'name_button'=> 'Enregistrer et générer',
@@ -76,7 +76,7 @@ class PowerPointController extends AbstractController
                     $powerPoint->setBackgroundSlidesImageFile(null);
                 }
 
-                $powerPoint->setUpadtedAt(new \DateTime());
+                $powerPoint->setUpdatedAt(new \DateTime());
 
                 $em->flush();
                 $this->addFlash('success', 'Votre powerpoint a bien été enregistré');
@@ -114,7 +114,7 @@ class PowerPointController extends AbstractController
      * @Route("/powerpoints/delete/{id}", name="powerpoint_delete", requirements={"id"="\d+"})
      */
     public function powerpointDelete(PowerPoint $powerPoint){
-        if($powerPoint->getUser() == $this->getUser()) {
+        if( ($powerPoint->getUser() == $this->getUser()) || in_array("ROLE_ADMIN", $this->getUser()->getRoles()) ) {
            $em = $this->getDoctrine()->getManager();
 
             $em->remove($powerPoint);

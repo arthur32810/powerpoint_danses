@@ -62,7 +62,7 @@ class MainController extends AbstractController
                     $danse->setPowerpoint($powerpoint);
                 }
 
-                $powerpoint->setUpadtedAt(new \DateTime());
+                $powerpoint->setUpdatedAt(new \DateTime());
 
                 //Persistance et flush
                 $em->persist($powerpoint);
