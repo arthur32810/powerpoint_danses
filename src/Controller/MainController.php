@@ -62,6 +62,8 @@ class MainController extends AbstractController
                     $danse->setPowerpoint($powerpoint);
                 }
 
+                $powerpoint->setUpadtedAt(new \DateTime());
+
                 //Persistance et flush
                 $em->persist($powerpoint);
                 $em->flush();
@@ -105,30 +107,10 @@ class MainController extends AbstractController
     }
 
     /**
-     * @Route("/service", name="app_service")
-     * @param PowerPointGenerator $powerPointGenerator
-     * @return Response
+     * @Route("/mentions-legales", name="app_mentions_legales")
      */
-    public function testService(PowerPointGenerator $powerPointGenerator){
-        return new Response($powerPointGenerator->main());
-    }
-
-    /**
-     * @Route("/admin", name="app_admin")
-     * @return Response
-     */
-    public function admin():Response
+    public function mentionsLegales()
     {
-        return new Response('<body> C\'est une page d\'admin pour tester</body>');
-    }
-
-    /**
-     * @Route("/test", name="app_test")
-     * @return Response
-     */
-    public function test( )
-    {
-
-      return new Response("<body> C'est persisté </body>");
+        return $this->render('powerPoint/mentionsLegales.html.twig');
     }
 }

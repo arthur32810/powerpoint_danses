@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PowerPointRepository")
@@ -77,6 +78,11 @@ class PowerPoint
      * @ORM\Column(type="boolean")
      */
     private $backgroundSlidesDefaut;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updated_at;
 
 
     public function __construct()
@@ -235,6 +241,18 @@ class PowerPoint
     public function setBackgroundSlidesDefaut(bool $backgroundSlidesDefaut): self
     {
         $this->backgroundSlidesDefaut = $backgroundSlidesDefaut;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updated_at): self
+    {
+        $this->updated_at = $updated_at;
 
         return $this;
     }

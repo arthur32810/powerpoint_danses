@@ -76,6 +76,7 @@ class PowerPointController extends AbstractController
                     $powerPoint->setBackgroundSlidesImageFile(null);
                 }
 
+                $powerPoint->setUpadtedAt(new \DateTime());
 
                 $em->flush();
                 $this->addFlash('success', 'Votre powerpoint a bien été enregistré');

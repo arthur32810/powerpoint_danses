@@ -13,16 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 class PurgePowerpointCommand extends Command
 {
     protected static $defaultName = 'app:purge-powerpoint';
-    /**
-     * @var PowerpointDelete
-     */
-    private $powerpointDelete;
-
-    public function __construct(PowerpointDelete $powerpointDelete)
-    {
-        parent::__construct();
-        $this->powerpointDelete = $powerpointDelete;
-    }
 
     protected function configure()
     {
