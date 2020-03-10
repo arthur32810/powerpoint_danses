@@ -23,10 +23,10 @@ class PowerPointGenerator
         $propertiesPowerpoint->setSecondaryDanseColor(str_replace("#", "", $powerpoint->getSecondaryDanseColor()));
 
         if( !empty($powerpoint->getBackgroundSlides()) ) {
-            $backgroundSlides = $_SERVER['DOCUMENT_ROOT']."uploads/images/backgroundSlides/".$powerpoint->getBackgroundSlides();
+            $backgroundSlides = $_SERVER['DOCUMENT_ROOT']."/uploads/images/backgroundSlides/".$powerpoint->getBackgroundSlides();
         }
         else {
-            $backgroundSlides = $_SERVER['DOCUMENT_ROOT']."build/images/powerpoint/background_slide.jpg";
+            $backgroundSlides = $_SERVER['DOCUMENT_ROOT']."/build/images/powerpoint/background_slide.jpg";
         }
 
         $propertiesPowerpoint->setBackgroundSlides($backgroundSlides);
