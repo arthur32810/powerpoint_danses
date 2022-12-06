@@ -20,14 +20,17 @@ class PowerPointGenerator
         //Récupération des valeurs personnalisée
         $propertiesPowerpoint = new PropertiesPowerpoint();
 
-        dump($propertiesPowerpoint);
-
-        //Défini le nombre de slide
+        //Défini le nombre de danse par slide, choisi par l'utilisateur
         $propertiesPowerpoint->setNbDansesSlides($powerpoint->getNbDansesSlides());
-        throw new Exception('erreur volontaire');
+
+        //Défini la couleur de la danse principale
         $propertiesPowerpoint->setPrimaryDanseColor(str_replace("#", '', $powerpoint->getPrimaryDanseColor()));
+
+        //défini la couleur des danses secondaires
         $propertiesPowerpoint->setSecondaryDanseColor(str_replace("#", "", $powerpoint->getSecondaryDanseColor()));
 
+
+        //Défini le background du powerpoint −> Import utilisateur ou choix par défaut
         if (!empty($powerpoint->getBackgroundSlides())) {
             $backgroundSlides = $_SERVER['DOCUMENT_ROOT'] . "/uploads/images/backgroundSlides/" . $powerpoint->getBackgroundSlides();
         } else {

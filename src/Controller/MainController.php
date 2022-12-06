@@ -29,18 +29,18 @@ class MainController extends AbstractController
         $powerpoint = new PowerPoint();
 
         //Construction formulaire et modification du texte bouton en fonction du role utilisateur
-        if($this->isGranted('ROLE_USER'))
-        {
+        if ($this->isGranted('ROLE_USER')) {
             $form = $this->createForm(PowerPointType::class, $powerpoint, [
-                'name_button'=> 'Enregistrer et générer',
-                'disabled_button_generate'=>false,
+                'name_button' => 'Enregistrer et générer',
+                'disabled_button_generate' => false,
             ]);
+        } else {
+            $form = $this->createForm(PowerPointType::class, $powerpoint);
         }
-        else { $form = $this->createForm(PowerPointType::class, $powerpoint); }
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $powerpoint = $form->getData();
 
             //Ordonner par position_playlist
@@ -48,7 +48,7 @@ class MainController extends AbstractController
 
 
             //Enregistrement dans bdd pour utilisateur connectés
-            if($this->isGranted('ROLE_USER')){
+            if ($this->isGranted('ROLE_USER')) {
                 //Récupération de l'entity manager
                 $em = $this->getDoctrine()->getManager();
 
@@ -56,9 +56,8 @@ class MainController extends AbstractController
                 $user = $this->getUser();
                 $powerpoint->setUser($user);
 
-                 //Ajout du powerpoint dans l'objet danse
-                foreach($powerpoint->getDanses() as $danse)
-                {
+                //Ajout du powerpoint dans l'objet danse
+                foreach ($powerpoint->getDanses() as $danse) {
                     $danse->setPowerpoint($powerpoint);
                 }
 
@@ -70,13 +69,11 @@ class MainController extends AbstractController
             }
 
             //Si bouton enregistrer cliqué, on redigire apres la mise en bdd et avant la génération powerpoint
-            if($form->getClickedButton() && 'onlySave' === $form->getClickedButton()->getName())
-            {
+            if ($form->getClickedButton() && 'onlySave' === $form->getClickedButton()->getName()) {
                 $this->addFlash('success', 'Votre powerpoint a bien été enregistré');
 
                 return $this->redirectToRoute('all_powerpoint_user');
             }
-
 
             //Appel du service de création du fichier Powerpoint
             $urlPPTX = $powerPointGenerator->main($dansesOrdonner, $powerpoint);
@@ -90,10 +87,9 @@ class MainController extends AbstractController
 
         //Retourne la vue non formulaire
         return $this->render('powerPoint/indexPowerpoint.html.twig', [
-            'form'=>$form->createView(),
-            'page'=>'home',
+            'form' => $form->createView(),
+            'page' => 'home',
         ]);
-
     }
 
     /**
@@ -103,7 +99,7 @@ class MainController extends AbstractController
     {
         $urlPowerpoint = $session->get('urlPowerpoint');
 
-        return $this->render('powerPoint/downloadPowerpoint.html.twig', ['urlPowerpoint'=>$urlPowerpoint]);
+        return $this->render('powerPoint/downloadPowerpoint.html.twig', ['urlPowerpoint' => $urlPowerpoint]);
     }
 
     /**
