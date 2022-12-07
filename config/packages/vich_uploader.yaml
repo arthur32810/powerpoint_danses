@@ -1,6 +1,9 @@
 vich_uploader:
     db_driver: orm
 
+    metadata:
+        type: annotation
+
     mappings:
         powerpoint_backgroundSlides:
             uri_prefix: /uploads/images/backgroundSlides

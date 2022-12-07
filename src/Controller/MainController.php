@@ -7,6 +7,7 @@ use App\Entity\PowerPoint;
 use App\Form\PowerPointType;
 use App\Service\OrderObject;
 use App\Service\PowerPointGenerator;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,6 +46,12 @@ class MainController extends AbstractController
 
             //Ordonner par position_playlist
             $dansesOrdonner = $orderObject->main($powerpoint->getDanses());
+
+
+            //Débugage 
+            dump($powerpoint->getBackgroundSlidesImageFile());
+            dump($powerpoint->getBackgroundSlides());
+            throw new Exception('Débogage volontaire');
 
 
             //Enregistrement dans bdd pour utilisateur connectés

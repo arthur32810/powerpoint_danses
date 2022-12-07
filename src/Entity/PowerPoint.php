@@ -208,7 +208,7 @@ class PowerPoint
     {
         $this->backgroundSlidesImageFile = $backgroundSlidesImageFile;
 
-        if(null !== $backgroundSlidesImageFile){
+        if (null !== $backgroundSlidesImageFile) {
             $this->backgroundSlidesUpdatedAt = new \DateTimeImmutable();
         }
     }
@@ -256,5 +256,4 @@ class PowerPoint
 
         return $this;
     }
-
 }

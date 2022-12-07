@@ -24,9 +24,8 @@ class AdminController extends AbstractController
     public function listUsers(UserRepository $userRepository)
     {
         return $this->render('user/list.html.twig', [
-            'users'=>$userRepository->findAll()
+            'users' => $userRepository->findAll()
         ]);
-
     }
 
     /**
@@ -35,8 +34,7 @@ class AdminController extends AbstractController
     public function listPowerpoints(PowerPointRepository $powerPointRepository)
     {
         return $this->render('powerPoint/listPowerpointsUser.html.twig', [
-            'powerpoints'=>$powerPointRepository->findAll(),
+            'powerpoints' => $powerPointRepository->findAll(),
         ]);
     }
-
 }
