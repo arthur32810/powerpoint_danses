@@ -29,11 +29,11 @@ class PowerPoint
      */
     private $danses;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="powerpoint")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $user;
+    // /**
+    //  * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="powerpoint")
+    //  * @ORM\JoinColumn(nullable=false)
+    //  */
+    // private $user;
 
     /**
      * @ORM\Column(type="string", length=255)
