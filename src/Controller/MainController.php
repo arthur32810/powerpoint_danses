@@ -19,11 +19,11 @@ class MainController extends AbstractController
 {
 
     /**
-     * @Route("/", name="main")
      * @param PowerPointGenerator $powerPointGenerator
      * @param Request $request
      * @return Response
      */
+    #[Route("/", name: "main")]
     public function main(PowerPointGenerator $powerPointGenerator, OrderObject $orderObject, SessionInterface $session, Request $request)
     {
         //Déclaration entitée
@@ -99,9 +99,8 @@ class MainController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/downloadPowerpoint", name="powerpoint_download")
-     */
+
+    #[Route("/downloadPowerpoint", name: "powerpoint_download")]
     public function powerpointDowload(SessionInterface $session)
     {
         $urlPowerpoint = $session->get('urlPowerpoint');
@@ -109,9 +108,7 @@ class MainController extends AbstractController
         return $this->render('powerPoint/downloadPowerpoint.html.twig', ['urlPowerpoint' => $urlPowerpoint]);
     }
 
-    /**
-     * @Route("/mentions-legales", name="app_mentions_legales")
-     */
+    #[Route("/mentions-legales", name: "app_mentions_legales")]
     public function mentionsLegales()
     {
         return $this->render('powerPoint/mentionsLegales.html.twig');

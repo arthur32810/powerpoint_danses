@@ -13,14 +13,13 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class AdminController
  * @package App\Controller
- * @Route("/admine")
- * @IsGranted("ROLE_ADMIN")
  */
+#[Route("/admin")]
+#[IsGranted("ROLE_ADMIN")]
 class AdminController extends AbstractController
 {
-    /**
-     * @Route("/users", name="user_list_admin", methods={"GET"})
-     */
+
+    #[Route("/users", name: "user_list_admin")]
     public function listUsers(UserRepository $userRepository)
     {
         return $this->render('user/list.html.twig', [
@@ -28,9 +27,8 @@ class AdminController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/powerpoints", name="powerpoints_list_admin", methods={"GET"})
-     */
+
+    #[Route("/powerpoints", name: "powerpoints_list_admin")]
     public function listPowerpoints(PowerPointRepository $powerPointRepository)
     {
         return $this->render('powerPoint/listPowerpointsUser.html.twig', [
