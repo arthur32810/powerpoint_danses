@@ -3,6 +3,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Danse;
 use App\Entity\PowerPoint;
 use App\Form\PowerPointType;
 use App\Service\OrderObject;
@@ -10,13 +11,21 @@ use App\Service\PowerPointGenerator;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends AbstractController
 {
+
+    public function __construct(private RequestStack $requestStack, private $session = null)
+    {
+        $this->session = $this->requestStack->getSession();
+    }
 
     /**
      * @param PowerPointGenerator $powerPointGenerator
@@ -26,8 +35,9 @@ class MainController extends AbstractController
     #[Route("/", name: "main")]
     public function main(PowerPointGenerator $powerPointGenerator, OrderObject $orderObject, SessionInterface $session, Request $request)
     {
-        //Déclaration entitée
-        $powerpoint = new PowerPoint();
+        //On regarde si un powerpoint existe dans la session
+        $powerpoint = $this->session->get('powerpointDanse');
+        $powerpoint = $powerpoint ? $powerpoint : new PowerPoint();
 
         //Construction formulaire et modification du texte bouton en fonction du role utilisateur
         if ($this->isGranted('ROLE_USER')) {
@@ -48,7 +58,15 @@ class MainController extends AbstractController
             $dansesOrdonner = $orderObject->main($powerpoint->getDanses());
 
 
+            //si Suppression de toutes les danses
+            if ($form->getClickedButton() && 'resetDanse' === $form->getClickedButton()->getName()) {
+                $this->session->remove('powerpointDanse');
+                return $this->redirectToRoute('main');
+            }
+
+
             //Débugage 
+            dump($powerpoint->getDanses());
             dump($powerpoint->getBackgroundSlidesImageFile());
             dump($powerpoint->getBackgroundSlides());
             throw new Exception('Débogage volontaire');
@@ -96,6 +114,53 @@ class MainController extends AbstractController
         return $this->render('powerPoint/indexPowerpoint.html.twig', [
             'form' => $form->createView(),
             'page' => 'home',
+        ]);
+    }
+
+    #[Route("/recuperation-danse", name: "recuperation_danse")]
+    public function recuperationDanse(Request $request)
+    {
+        // 1 - Génére form textArea
+        $defaultData = ['message' => 'Mon message'];
+        $form = $this->createFormBuilder($defaultData)
+            ->add('listeDanse', TextareaType::class, ['attr' => ['rows' => 16]])
+            ->add('save', SubmitType::class, ['label' => 'Générer'])
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            // 2 - Récupére les données dans un tableau
+            // Explode, découpe la chaîne de caractére en tableau au retour à la ligne
+            // Trim enleve les caractére du type \r du tableau
+            $danses = array_map('trim', explode("\n", $data['listeDanse']));
+
+            // 3 - On génére l'objet powerpoint
+            $powerpoint = new PowerPoint();
+
+            foreach ($danses as $position => $danse) {
+
+                //On crée une nouvelle danse
+                $dansePowerpoint = new Danse();
+                $dansePowerpoint->setName($danse);
+                $dansePowerpoint->setPositionPlaylist($position + 1);
+
+                //On ajoute la danse au powerpoint
+                $powerpoint->addDanse($dansePowerpoint);
+            }
+
+
+            // 4 - On enregistre le powerpoint dans la session
+            $this->session->set('powerpointDanse', $powerpoint);
+
+            // 5 - On redirige sur la page d'accueil
+            return $this->redirectToRoute('main');
+        }
+
+        return $this->renderForm('powerPoint/recuperationDanse.html.twig', [
+            'form' => $form
         ]);
     }
 

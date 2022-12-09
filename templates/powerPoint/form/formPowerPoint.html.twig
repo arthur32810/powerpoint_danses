@@ -1,7 +1,13 @@
 {{ form_start(form) }}
 
 {{ form_row(form.danses) }}
-<button type="button" id="add_category" class="btn btn-secondary" style="margin-bottom:2%">Ajouter une danse</button>
+
+<div class="d-flex">
+    <button type="button" id="add_category" class="btn btn-secondary" style="margin-bottom:2%; margin-right: 3%">Ajouter
+        une
+        danse</button>
+    {{form_row(form.resetDanse)}}
+</div>
 
 {{ form_row(form.name) }}
 
@@ -11,19 +17,22 @@
 {{ form_row(form.secondaryDanseColor) }}
 
 {{ form_row(form.backgroundSlidesDefaut) }}
-<img src="{{ asset('build/images/powerpoint/background_slide.jpg') }}" alt="Arrière plan par défaut" height="300", style="margin-bottom: 2%;">
+<img src="{{ asset('build/images/powerpoint/background_slide.jpg') }}" alt="Arrière plan par défaut" height="300" ,
+    style="margin-bottom: 2%;">
 
 {{ form_row(form.backgroundSlidesImageFile) }}
 
-{%  if form.vars.data.backgroundSlides is not empty %}
-    <p> Votre arrière-plan de présentation actuel </p>
+{% if form.vars.data.backgroundSlides is not empty %}
+<p> Votre arrière-plan de présentation actuel </p>
 
-    {%  if form.vars.data.backgroundSlides| default %}
-        <img src="{{ absolute_url(asset('/uploads/images/backgroundSlides/'~form.vars.data.backgroundSlides)) }}" height="300", style="margin-bottom: 2%;">
+{% if form.vars.data.backgroundSlides| default %}
+<img src="{{ absolute_url(asset('/uploads/images/backgroundSlides/'~form.vars.data.backgroundSlides)) }}" height="300" ,
+    style="margin-bottom: 2%;">
 
-    {%  endif %}
-{%  endif %}
-<p> Il est impératif d'utiliser une image dont vous avez les droits, visitez le site <a href='https://pixabay.com'> www.pixabay.com </a>, les images y sont libres de droit <br> </p>
+{% endif %}
+{% endif %}
+<p> Il est impératif d'utiliser une image dont vous avez les droits, visitez le site <a href='https://pixabay.com'>
+        www.pixabay.com </a>, les images y sont libres de droit <br> </p>
 
 
 {{ form_rest(form) }}
