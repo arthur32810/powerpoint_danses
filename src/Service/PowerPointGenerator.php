@@ -12,9 +12,14 @@ use PhpOffice\PhpPresentation\PhpPresentation;
 use PhpOffice\PhpPresentation\Slide\Background\Image;
 use PhpOffice\PhpPresentation\Style\Alignment;
 use PhpOffice\PhpPresentation\Style\Color;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Gedmo\Sluggable\Util\Urlizer;
 
 class PowerPointGenerator
 {
+    public function __construct(private ParameterBagInterface $params)
+    {
+    }
     public function main($danse, $powerpoint)
     {
         //Récupération des valeurs personnalisée
@@ -31,11 +36,24 @@ class PowerPointGenerator
 
 
         //Défini le background du powerpoint −> Import utilisateur ou choix par défaut
-        if (!empty($powerpoint->getBackgroundSlides())) {
-            $backgroundSlides = $_SERVER['DOCUMENT_ROOT'] . "/uploads/images/backgroundSlides/" . $powerpoint->getBackgroundSlides();
+        if (!empty($powerpoint->getBackgroundSlidesImageFile())) {
+            $backgroundSlideFile = $powerpoint->getBackgroundSlidesImageFile();
+            //Définition de la destination 
+            $destination = $this->params->get('kernel.project_dir') . '/public' . $this->params->get('backgroundSlide');
+
+            //Changement nom du ficheir
+            $originalFilename = pathinfo($backgroundSlideFile, PATHINFO_FILENAME);
+            $newFilename = Urlizer::urlize($originalFilename) . '-' . uniqid() . '.' . $backgroundSlideFile->guessExtension();
+
+            //Déplacement du fichier + ajout du nouveau nom dans l'entité powerpoint
+            $backgroundSlideFile->move($destination, $newFilename);
+            $powerpoint->setBackgroundSlides($newFilename);
+
+            $backgroundSlides = $_SERVER['DOCUMENT_ROOT'] . "/uploads/images/backgroundSlides/" . $newFilename;
         } else {
             $backgroundSlides = $_SERVER['DOCUMENT_ROOT'] . "/build/images/powerpoint/background_slide.jpg";
         }
+
 
         $propertiesPowerpoint->setBackgroundSlides($backgroundSlides);
 

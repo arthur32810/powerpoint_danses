@@ -12,8 +12,8 @@ use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PowerPointRepository")
- * @Vich\Uploadable
  */
+#[Vich\Uploadable]
 class PowerPoint
 {
     /**
@@ -60,9 +60,7 @@ class PowerPoint
      */
     private $backgroundSlides;
 
-    /**
-     * @Vich\UploadableField(mapping="powerpoint_backgroundSlides", fileNameProperty="backgroundSlides")
-     */
+    #[Vich\UploadableField(mapping: "powerpoint_backgroundSlides", fileNameProperty: "backgroundSlides")]
     private $backgroundSlidesImageFile;
 
     /**

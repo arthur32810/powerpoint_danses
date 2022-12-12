@@ -1,8 +1,8 @@
 vich_uploader:
     db_driver: orm
 
-    metadata:
-        type: annotation
+    # metadata:
+    #     type: attribute
 
     mappings:
         powerpoint_backgroundSlides:

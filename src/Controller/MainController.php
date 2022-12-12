@@ -65,13 +65,6 @@ class MainController extends AbstractController
             }
 
 
-            //Débugage 
-            dump($powerpoint->getBackgroundSlides());
-            dump($powerpoint->getBackgroundSlidesImageFile());
-
-            throw new Exception('Débogage volontaire');
-
-
             //Enregistrement dans bdd pour utilisateur connectés
             if ($this->isGranted('ROLE_USER')) {
                 //Récupération de l'entity manager
@@ -99,6 +92,19 @@ class MainController extends AbstractController
 
                 return $this->redirectToRoute('all_powerpoint_user');
             }
+
+            // if (!empty($powerpoint->getBackgroundSlidesImageFile())) {
+            //     $destination = $this->getParameter('kernel.project_dir') . $this->getParameter('backgroundSlide');
+            //     dump($destination);
+            // }
+
+            // //Débugage 
+            // dump($this->params->get('backgroundSlide'));
+            // dump($powerpoint->getBackgroundSlides());
+            // dump($powerpoint->getBackgroundSlidesImageFile());
+
+            // throw new Exception('Débogage volontaire');
+
 
             //Appel du service de création du fichier Powerpoint
             $urlPPTX = $powerPointGenerator->main($dansesOrdonner, $powerpoint);
