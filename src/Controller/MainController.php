@@ -66,9 +66,9 @@ class MainController extends AbstractController
 
 
             //Débugage 
-            dump($powerpoint->getDanses());
-            dump($powerpoint->getBackgroundSlidesImageFile());
             dump($powerpoint->getBackgroundSlides());
+            dump($powerpoint->getBackgroundSlidesImageFile());
+
             throw new Exception('Débogage volontaire');
 
 

@@ -12,7 +12,7 @@ use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PowerPointRepository")
- * @Vich\Uploadable()
+ * @Vich\Uploadable
  */
 class PowerPoint
 {
@@ -62,10 +62,6 @@ class PowerPoint
 
     /**
      * @Vich\UploadableField(mapping="powerpoint_backgroundSlides", fileNameProperty="backgroundSlides")
-     * @var File
-     * @Assert\Image(
-     *      allowPortrait = false,
-     * )
      */
     private $backgroundSlidesImageFile;
 
